@@ -1,6 +1,3 @@
-// ==========================================
-// 1. DATA FETCHING & RENDERING LOGIC
-// ==========================================
 async function loadDynamicContent() {
     try {
         const response = await fetch('data.json');
@@ -9,13 +6,11 @@ async function loadDynamicContent() {
     } catch (error) {
         console.error('Error loading JSON data:', error);
     } finally {
-        // ডেটা লোড হওয়ার পর অ্যানিমেশন ও প্রি-লোডার রান করবে
         initSiteAnimations();
     }
 }
 
 function renderData(data) {
-    // History Render
     const historyContainer = document.getElementById('dynamic-history');
     if (historyContainer && data.history) {
         historyContainer.innerHTML = data.history.map((item, index) => {
@@ -44,7 +39,6 @@ function renderData(data) {
         }).join('');
     }
 
-    // Leaders Render
     const leadersContainer = document.getElementById('dynamic-leaders');
     if (leadersContainer && data.leaders) {
         leadersContainer.innerHTML = data.leaders.map(item => `
@@ -60,7 +54,6 @@ function renderData(data) {
         `).join('');
     }
 
-    // Branches Render
     const branchesContainer = document.getElementById('dynamic-branches');
     if (branchesContainer && data.branches) {
         branchesContainer.innerHTML = data.branches.map(item => `
@@ -75,7 +68,6 @@ function renderData(data) {
         `).join('');
     }
 
-    // Jamborees Render
     const jamboreesContainer = document.getElementById('dynamic-jamborees');
     if (jamboreesContainer && data.jamborees) {
         jamboreesContainer.innerHTML = data.jamborees.map(item => `
@@ -88,7 +80,6 @@ function renderData(data) {
         `).join('');
     }
 
-    // Activities Render
     const renderActivityCard = (item) => `
         <div class="activity-card gsap-stagger group">
             <div class="h-40 overflow-hidden relative cursor-pointer" onclick="openModal('${item.img}')">
@@ -113,12 +104,6 @@ function renderData(data) {
     }
 }
 
-
-// ==========================================
-// 2. UI & ANIMATION LOGIC (Original Intact)
-// ==========================================
-
-// Custom Cursor Logic
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 
@@ -157,7 +142,6 @@ document.addEventListener('mouseout', (e) => {
     }
 });
 
-// Image Lightbox/Modal Function
 function openModal(imgSrc) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
@@ -187,7 +171,6 @@ function closeModal() {
     }, 300);
 }
 
-// Typewriter Function 
 function initTypewriter() {
     const text = "সেবাই আমাদের ব্রত, আত্মোৎসর্গ আমাদের দীক্ষা";
     const element = document.getElementById("typewriter-text");
@@ -220,7 +203,6 @@ function triggerConfetti() {
     }, 250);
 }
 
-// Preloader & GSAP Initialization (Called after fetch)
 function initSiteAnimations() {
     setTimeout(() => {
         const preloader = document.getElementById('preloader');
@@ -245,7 +227,6 @@ function initSiteAnimations() {
         if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
             gsap.registerPlugin(ScrollTrigger);
 
-            // Timeline Animations
             gsap.to("#animatedTimelineLine", { height: "100%", ease: "none", scrollTrigger: { trigger: ".timeline-container", start: "top center", end: "bottom center", scrub: 1 } });
 
             gsap.utils.toArray('.timeline-node-green').forEach((node) => { 
@@ -264,7 +245,6 @@ function initSiteAnimations() {
             gsap.utils.toArray('.timeline-content-left').forEach((card) => { gsap.fromTo(card, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power2.out", scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none reverse" } }); });
             gsap.utils.toArray('.timeline-content-right').forEach((card) => { gsap.fromTo(card, { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power2.out", scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none reverse" } }); });
 
-            // Stagger Sections
             const sectionsToStagger = ['.stat-box', '#mulniti', '#shakha', '#poricalona', '#regions', '#proshikkhon', '#karyokram', '#sommanona', '#bhobisshot', '#netritto', '#jamboree'];
             sectionsToStagger.forEach(sec => {
                 const el = document.querySelector(sec);
@@ -276,12 +256,10 @@ function initSiteAnimations() {
                 }
             });
 
-            // Reveal Elements
             gsap.utils.toArray('.gsap-reveal').forEach(elem => {
                 gsap.fromTo(elem, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: elem, start: "top 90%", toggleActions: "play none none reverse" }});
             });
 
-            // Parallax Background
             gsap.utils.toArray('.parallax-bg').forEach(bg => {
                 const speed = bg.getAttribute('data-speed');
                 gsap.to(bg, { y: () => (ScrollTrigger.maxScroll(window) * speed), ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }});
@@ -290,7 +268,6 @@ function initSiteAnimations() {
     }, 600); 
 }
 
-// Horizontal Chart Scroll Animation
 const scrollArea = document.getElementById('scrollArea');
 function checkHorizontalScroll() {
     const animElements = document.querySelectorAll('.anim-el');
@@ -313,7 +290,6 @@ if(scrollArea){
     setTimeout(checkHorizontalScroll, 800);
 }
 
-// Mobile Menu Fix
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 if(mobileMenuBtn && mobileMenu) {
@@ -321,7 +297,6 @@ if(mobileMenuBtn && mobileMenu) {
     document.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => mobileMenu.classList.remove('open')); });
 }
 
-// Scroll Events
 window.addEventListener('scroll', () => {
     const winScroll = document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -345,8 +320,6 @@ window.addEventListener('scroll', () => {
 const backToTopBtn = document.getElementById('backToTop');
 if(backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-
-// NUMBER COUNTERS (BENGALI CONVERTER)
 function toBengaliNum(num) {
     const banglaDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
     return num.toString().replace(/[0-9]/g, x => banglaDigits[x]);
@@ -386,7 +359,6 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 counters.forEach(counter => counterObserver.observe(counter));
 
-// Smooth Scroll for Anchors
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -397,7 +369,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ==========================================
-// 3. INITIALIZE EVERYTHING
-// ==========================================
 window.addEventListener('DOMContentLoaded', loadDynamicContent);
