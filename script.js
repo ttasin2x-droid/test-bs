@@ -204,25 +204,35 @@ function triggerConfetti() {
 }
 
 function initSiteAnimations() {
+    // ১. প্রথমে প্রি-লোডার হাইড করার পর পুরো সাইট স্মুথলি ফেড-আপ করবে
     setTimeout(() => {
         const preloader = document.getElementById('preloader');
         if(preloader){
             preloader.style.opacity = '0';
             setTimeout(() => { 
                 preloader.style.display = 'none'; 
-                triggerConfetti(); 
-                initTypewriter(); 
                 
-                if (typeof gsap !== "undefined") {
-                    gsap.fromTo(".hero-element", 
-                        { y: 30, opacity: 0 }, 
-                        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out" }
-                    );
-                }
+                // ২. বডিতে layout-loaded ক্লাস যোগ করে স্মুথ ফেড-আপ শুরু
+                document.body.classList.add('layout-loaded');
+                
+                // ৩. লেআউট ভিজিবল হওয়ার সামান্য পর হিরো এলিমেন্টগুলো নিচ থেকে আসবে
+                setTimeout(() => {
+                    triggerConfetti(); 
+                    initTypewriter(); 
+                    
+                    if (typeof gsap !== "undefined") {
+                        gsap.fromTo(".hero-element", 
+                            { y: 40, opacity: 0 }, 
+                            { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" }
+                        );
+                    }
+                }, 200);
+
             }, 600);
         }
     }, 500);
 
+    // স্ক্রল ট্রিগারগুলো একটু দেরি করে চালু হবে যাতে লেআউট লোড হওয়ার সময় কনফ্লিক্ট না করে
     setTimeout(() => {
         if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
             gsap.registerPlugin(ScrollTrigger);
@@ -265,7 +275,7 @@ function initSiteAnimations() {
                 gsap.to(bg, { y: () => (ScrollTrigger.maxScroll(window) * speed), ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }});
             });
         }
-    }, 600); 
+    }, 1000); 
 }
 
 const scrollArea = document.getElementById('scrollArea');
