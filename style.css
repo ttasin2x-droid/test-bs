@@ -45,13 +45,14 @@ html, body {
     color: #1a202c;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    line-height: 1.6; /* ফন্ট যাতে কেটে না যায় তার জন্য যোগ করা হলো */
 }
 
 /* Heading Font */
 .font-display { 
     font-family: 'Bornomala', serif !important; 
-    line-height: 1.4;
-    padding-top: 5px;
+    line-height: 1.6; /* ফন্ট যাতে কেটে না যায় তার জন্য যোগ করা হলো */
+    padding-top: 10px; /* ফন্টের উপরের মাত্রা যাতে না কাটে তার জন্য প্যাডিং */
     padding-bottom: 5px;
 }
 
