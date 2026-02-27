@@ -45,14 +45,14 @@ html, body {
     color: #1a202c;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    line-height: 1.6; /* ফন্ট যাতে কেটে না যায় তার জন্য যোগ করা হলো */
+    line-height: 1.6;
 }
 
 /* Heading Font */
 .font-display { 
     font-family: 'Bornomala', serif !important; 
-    line-height: 1.6; /* ফন্ট যাতে কেটে না যায় তার জন্য যোগ করা হলো */
-    padding-top: 10px; /* ফন্টের উপরের মাত্রা যাতে না কাটে তার জন্য প্যাডিং */
+    line-height: 1.6;
+    padding-top: 10px;
     padding-bottom: 5px;
 }
 
@@ -302,4 +302,23 @@ footer { position: relative; overflow: hidden; }
     .md\:text-right .timeline-card { margin-left: 45px; text-align: left; }
     * { cursor: auto; }
     .cursor-dot, .cursor-outline { display: none; }
+}
+
+/* ========================================================
+   NEW: SMOOTH FADE-UP LAYOUT FIX
+   ======================================================== */
+/* Main Layout Hidden Initially */
+#navbar, section, footer, .progress-container, .marquee-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Fade In Class (Toggled via JS) */
+.layout-loaded #navbar,
+.layout-loaded section,
+.layout-loaded footer,
+.layout-loaded .progress-container,
+.layout-loaded .marquee-content {
+    opacity: 1;
+    visibility: visible;
 }
