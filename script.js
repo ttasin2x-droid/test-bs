@@ -204,35 +204,25 @@ function triggerConfetti() {
 }
 
 function initSiteAnimations() {
-    // ১. প্রথমে প্রি-লোডার হাইড করার পর পুরো সাইট স্মুথলি ফেড-আপ করবে
     setTimeout(() => {
         const preloader = document.getElementById('preloader');
         if(preloader){
             preloader.style.opacity = '0';
             setTimeout(() => { 
                 preloader.style.display = 'none'; 
+                triggerConfetti(); 
+                initTypewriter(); 
                 
-                // ২. বডিতে layout-loaded ক্লাস যোগ করে স্মুথ ফেড-আপ শুরু
-                document.body.classList.add('layout-loaded');
-                
-                // ৩. লেআউট ভিজিবল হওয়ার সামান্য পর হিরো এলিমেন্টগুলো নিচ থেকে আসবে
-                setTimeout(() => {
-                    triggerConfetti(); 
-                    initTypewriter(); 
-                    
-                    if (typeof gsap !== "undefined") {
-                        gsap.fromTo(".hero-element", 
-                            { y: 40, opacity: 0 }, 
-                            { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" }
-                        );
-                    }
-                }, 200);
-
+                if (typeof gsap !== "undefined") {
+                    gsap.fromTo(".hero-element", 
+                        { y: 30, opacity: 0 }, 
+                        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out" }
+                    );
+                }
             }, 600);
         }
     }, 500);
 
-    // স্ক্রল ট্রিগারগুলো একটু দেরি করে চালু হবে যাতে লেআউট লোড হওয়ার সময় কনফ্লিক্ট না করে
     setTimeout(() => {
         if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
             gsap.registerPlugin(ScrollTrigger);
@@ -275,7 +265,7 @@ function initSiteAnimations() {
                 gsap.to(bg, { y: () => (ScrollTrigger.maxScroll(window) * speed), ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }});
             });
         }
-    }, 1000); 
+    }, 600); 
 }
 
 const scrollArea = document.getElementById('scrollArea');
@@ -306,29 +296,6 @@ if(mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
     document.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => mobileMenu.classList.remove('open')); });
 }
-
-window.addEventListener('scroll', () => {
-    const winScroll = document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    
-    const progress = document.getElementById('progressBar');
-    if(progress) progress.style.width = ((winScroll / height) * 100) + '%';
-    
-    const backToTop = document.getElementById('backToTop');
-    if(backToTop) {
-        if (winScroll > 400) backToTop.classList.remove('opacity-0', 'pointer-events-none');
-        else backToTop.classList.add('opacity-0', 'pointer-events-none');
-    }
-    
-    const navbar = document.getElementById('navbar');
-    if(navbar) {
-        if (winScroll > 30) { navbar.classList.add('shadow-md', 'bg-white/95'); }
-        else { navbar.classList.remove('shadow-md', 'bg-white/95'); }
-    }
-});
-
-const backToTopBtn = document.getElementById('backToTop');
-if(backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 function toBengaliNum(num) {
     const banglaDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
@@ -379,4 +346,76 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-window.addEventListener('DOMContentLoaded', loadDynamicContent);
+// ==========================================
+// SCROLL RING & INTERACTIVE MAP TOOLTIP
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    loadDynamicContent(); // Load content on ready
+
+    // Circular Scroll Progress Ring Logic
+    const progressWrap = document.getElementById('progress-wrap');
+    const progressPath = document.querySelector('.progress-circle path');
+    let pathLength = 0;
+    
+    if (progressWrap && progressPath) {
+        pathLength = progressPath.getTotalLength();
+        progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+        progressPath.style.strokeDashoffset = pathLength;
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            
+            // Calculate stroke offset
+            const scrollPercentage = winScroll / height;
+            const drawLength = pathLength * scrollPercentage;
+            progressPath.style.strokeDashoffset = pathLength - drawLength;
+
+            // Show/Hide button
+            if (winScroll > 300) {
+                progressWrap.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                progressWrap.classList.add('opacity-0', 'pointer-events-none');
+            }
+            
+            // Navbar behavior
+            const navbar = document.getElementById('navbar');
+            if(navbar) {
+                if (winScroll > 30) navbar.classList.add('shadow-md', 'bg-white/95');
+                else navbar.classList.remove('shadow-md', 'bg-white/95');
+            }
+        });
+
+        progressWrap.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    // Interactive Map Tooltip Logic
+    const hotspots = document.querySelectorAll('.region-hotspot');
+    const tooltip = document.getElementById('map-tooltip');
+    const tooltipName = document.getElementById('tooltip-name');
+    const tooltipCount = document.getElementById('tooltip-count');
+
+    if(hotspots.length > 0 && tooltip) {
+        hotspots.forEach(spot => {
+            spot.addEventListener('mouseenter', () => {
+                const name = spot.getAttribute('data-name');
+                const count = spot.getAttribute('data-count');
+                
+                tooltipName.textContent = name;
+                tooltipCount.textContent = count;
+                tooltip.classList.remove('hidden');
+                
+                // Position Tooltip dynamically
+                const rect = spot.getBoundingClientRect();
+                const containerRect = spot.parentElement.getBoundingClientRect();
+                
+                tooltip.style.left = `${rect.left - containerRect.left + (rect.width / 2)}px`;
+                tooltip.style.top = `${rect.top - containerRect.top}px`;
+            });
+            
+            spot.addEventListener('mouseleave', () => {
+                tooltip.classList.add('hidden');
+            });
+        });
+    }
+});
