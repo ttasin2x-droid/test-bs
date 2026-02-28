@@ -284,7 +284,7 @@ footer { position: relative; overflow: hidden; }
    INTERACTIVE MAP CSS
    ======================================================== */
 .map-container {
-    background-image: url("photos/bd-map.jpg");
+    background-image: url("photos/bd-map.webp");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
