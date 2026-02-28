@@ -216,10 +216,6 @@ html, body {
 .timeline-node-green::after { content: ''; position: absolute; inset: -10px; border: 2px solid var(--bangladesh-green); border-radius: 50%; animation: ripple 2s infinite; opacity: 0.6; }
 @keyframes ripple { 0% { transform: scale(0.6); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
 
-/* Progress Bar */
-.progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 99999; background: rgba(0,0,0,0.05); }
-.progress-bar-green { height: 100%; width: 0%; transition: width 0.1s ease-out; background: linear-gradient(90deg, var(--bangladesh-green), #00e6ac, var(--bangladesh-red)); box-shadow: 0 0 8px #00e6ac; }
-
 /* Section Headers */
 .section-header { position: relative; display: inline-block; padding-bottom: 8px; }
 .section-header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, transparent, var(--bangladesh-red), transparent); border-radius: 2px; }
@@ -237,7 +233,6 @@ html, body {
 /* Activity Cards */
 .activity-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 106, 78, 0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 1; }
 
-/* GSAP Reveal */
 .gsap-reveal { opacity: 0; visibility: hidden; }
 footer { position: relative; overflow: hidden; }
 
@@ -286,10 +281,13 @@ footer { position: relative; overflow: hidden; }
 .special-title { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; color: #0f766e; padding: 2px 15px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; border: 1.5px solid #0f766e; white-space: nowrap; }
 
 /* ========================================================
-   INTERACTIVE MAP CSS
+   INTERACTIVE MAP CSS (RESTORED TO CSS BACKGROUND STYLE)
    ======================================================== */
 .map-container {
-    position: relative;
+    background-image: url("photos/bd-map.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
 }
 .region-hotspot {
     width: 15px; height: 15px;
