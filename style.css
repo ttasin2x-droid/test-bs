@@ -233,16 +233,7 @@ html, body {
 /* Activity Cards */
 .activity-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 106, 78, 0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 1; }
 
-/* GSAP FOUC (Blink) Fix */
 .gsap-reveal { opacity: 0; visibility: hidden; }
-.hero-element,
-.gsap-stagger,
-.timeline-node-green,
-.timeline-content-left,
-.timeline-content-right {
-    opacity: 0;
-}
-
 footer { position: relative; overflow: hidden; }
 
 /* ========================================================
@@ -293,7 +284,7 @@ footer { position: relative; overflow: hidden; }
    INTERACTIVE MAP CSS
    ======================================================== */
 .map-container {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120' fill='%23eef8f5' stroke='%23006A4E' stroke-width='1.5' stroke-dasharray='2,3'%3E%3Cpath d='M35,15 C45,10 55,15 65,25 C75,30 85,45 80,60 C75,70 85,80 80,95 C75,105 60,115 50,110 C40,105 30,115 20,100 C10,85 15,65 25,50 C20,35 25,20 35,15 Z'/%3E%3C/svg%3E");
+    background-image: url("photos/Bangladesh_Political_Map.webp");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
