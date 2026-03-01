@@ -23,12 +23,6 @@
     font-display: swap;
 }
 
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    cursor: none; 
-}
 
 :root {
     --bangladesh-green: #006A4E;
@@ -45,36 +39,18 @@ html, body {
     color: #1a202c;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    line-height: 1.6; /* ফন্ট যাতে কেটে না যায় তার জন্য যোগ করা হলো */
+    line-height: 1.6;
 }
 
 /* Heading Font */
 .font-display { 
     font-family: 'Bornomala', serif !important; 
-    line-height: 1.6; /* ফন্ট যাতে কেটে না যায় তার জন্য যোগ করা হলো */
-    padding-top: 10px; /* ফন্টের উপরের মাত্রা যাতে না কাটে তার জন্য প্যাডিং */
+    line-height: 1.6;
+    padding-top: 10px;
     padding-bottom: 5px;
 }
 
-/* Custom Cursor */
-.cursor-dot, .cursor-outline {
-    position: fixed; 
-    top: 0; left: 0; 
-    transform: translate(-50%, -50%);
-    border-radius: 50%; 
-    z-index: 9999999; 
-    pointer-events: none;
-}
-.cursor-dot { 
-    width: 8px; height: 8px; 
-    background-color: var(--bangladesh-red); 
-    transition: transform 0.1s; 
-}
-.cursor-outline { 
-    width: 40px; height: 40px; 
-    border: 2px solid rgba(0, 106, 78, 0.5); 
-    transition: width 0.2s, height 0.2s, background-color 0.2s; 
-}
+
 
 /* Subtle Noise Overlay */
 .noise-overlay {
@@ -237,6 +213,7 @@ html, body {
 /* Activity Cards */
 .activity-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 106, 78, 0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 1; }
 
+/* GSAP Reveal */
 .gsap-reveal { opacity: 0; visibility: hidden; }
 footer { position: relative; overflow: hidden; }
 
@@ -284,6 +261,72 @@ footer { position: relative; overflow: hidden; }
 .special-box { border: 1.5px dashed #0f766e; border-radius: 12px; padding: 20px 10px 12px 15px; position: relative; margin-top: 8px; background: rgba(204, 251, 241, 0.3); display: flex; flex-direction: column; gap: 10px; }
 .special-title { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; color: #0f766e; padding: 2px 15px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; border: 1.5px solid #0f766e; white-space: nowrap; }
 
+/* ========================================================
+   INTERACTIVE MAP CSS
+   ======================================================== */
+.map-container {
+    background-image: url("photos/bd-map.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+.region-hotspot {
+    width: 15px; height: 15px;
+    background: var(--bangladesh-green);
+    border-radius: 50%;
+    cursor: none;
+    box-shadow: 0 0 0 rgba(0, 106, 78, 0.4);
+    animation: pulse-hotspot 2s infinite;
+    border: 2px solid white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+.region-hotspot:hover {
+    background: var(--bangladesh-red);
+    transform: scale(1.4);
+    animation: none;
+    border-color: #fff;
+    box-shadow: 0 4px 15px rgba(244, 42, 65, 0.5);
+    z-index: 20;
+}
+
+/* Map Hotspot Custom Positions (CSS Based) */
+.hs-dinajpur { top: 18%; left: 22%; }
+.hs-mymensingh { top: 32%; left: 50%; }
+.hs-rajshahi { top: 38%; left: 22%; }
+.hs-sylhet { top: 34%; left: 73%; }
+.hs-dhaka { top: 48%; left: 48%; }
+.hs-comilla { top: 58%; left: 66%; }
+.hs-khulna { top: 65%; left: 28%; }
+.hs-barishal { top: 72%; left: 48%; }
+.hs-chattagram { top: 72%; left: 82%; }
+
+@keyframes pulse-hotspot {
+    0% { box-shadow: 0 0 0 0 rgba(0, 106, 78, 0.7); }
+    70% { box-shadow: 0 0 0 12px rgba(0, 106, 78, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 106, 78, 0); }
+}
+
+/* ========================================================
+   CIRCULAR PROGRESS BACK TO TOP CSS
+   ======================================================== */
+.progress-wrap {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(0, 106, 78, 0.15);
+}
+.progress-circle {
+    transform: rotate(-90deg);
+}
+.progress-circle path {
+    fill: none;
+    stroke: var(--bangladesh-green);
+    stroke-width: 5;
+    stroke-linecap: round;
+    box-sizing: border-box;
+    transition: stroke-dashoffset 0.1s linear;
+}
+
 @media (max-width: 450px) { .grid-layout { grid-template-columns: 1fr; gap: 10px; } .special-box { margin-top: 15px; } }
 
 @media (max-width: 768px) {
@@ -291,6 +334,5 @@ footer { position: relative; overflow: hidden; }
     .timeline-node-green { left: 24px; }
     .timeline-card { margin-left: 45px; }
     .md\:text-right .timeline-card { margin-left: 45px; text-align: left; }
-    * { cursor: auto; }
-    .cursor-dot, .cursor-outline { display: none; }
+    
 }
